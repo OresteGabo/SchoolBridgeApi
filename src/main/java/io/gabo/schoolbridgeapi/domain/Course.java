@@ -1,11 +1,11 @@
 package io.gabo.schoolbridgeapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
-
 
 
 @Entity (name ="courses")  @NoArgsConstructor
@@ -14,8 +14,11 @@ public class Course {
     @Column(nullable = false, length = 50, unique = true) private String name;
     @Column(length = 250) private String description;
 
-    // reverse link for clarity
-    @ManyToMany(mappedBy = "mainCourses") private Set<Combination> combinations = new HashSet<>();
+    @ManyToMany(mappedBy = "mainCourses")
+    @JsonIgnore
+    private Set<Combination> combinations = new HashSet<>();
+
+
 
     public Long getId() {
         return id;
@@ -40,6 +43,7 @@ public class Course {
     public void setDescription(String description) {
         this.description = description;
     }
+
 
     public Set<Combination> getCombinations() {
         return combinations;
