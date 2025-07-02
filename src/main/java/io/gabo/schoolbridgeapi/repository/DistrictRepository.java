@@ -2,13 +2,11 @@ package io.gabo.schoolbridgeapi.repository;
 
 import io.gabo.schoolbridgeapi.domain.District;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-/*
-public interface DistrictRepository extends JpaRepository<District, String> {
-    District findByName(String name);
-    Optional<District> findById(String id);
-    boolean existsByName(String name);
-    boolean existsById(String id);
+
+@Repository
+public interface DistrictRepository extends JpaRepository<District, Long> {
+    Optional<District> findByName(String name);
 }
-*/
