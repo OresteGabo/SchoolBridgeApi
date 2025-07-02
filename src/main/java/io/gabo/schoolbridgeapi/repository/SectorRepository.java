@@ -11,4 +11,5 @@ import java.util.List;
 public interface SectorRepository extends JpaRepository<Sector, Long> {
     List<Sector> findByDistrictId(Long districtId);
     List<Sector> findByDistrict(District district);
+    int countByDistrictId(Long districtId);
 }
