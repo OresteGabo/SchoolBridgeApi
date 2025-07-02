@@ -2,14 +2,25 @@ package io.gabo.schoolbridgeapi.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-@Entity(name = "education_levels") @Data @NoArgsConstructor
-class EducationLevel {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity(name = "education_levels")
+@Data
+@NoArgsConstructor
+public class EducationLevel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, length = 25)
-    private String name;
-    @Column(nullable = false, length = 120)
+
+    @ManyToOne(optional = false)
+    private DegreeType degreeType;  // replaces the 'name' field
+
+    @Column(length = 120)
     private String description;
+
     @Column(nullable = false)
-    private Integer levelOrder;
+    private Integer levelOrder; // e.g., for sorting progression
 }
+
