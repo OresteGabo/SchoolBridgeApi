@@ -1,17 +1,13 @@
 package io.gabo.schoolbridgeapi.domain;
 
-import io.gabo.schoolbridgeapi.domain.Sector;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import lombok.NoArgsConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity(name = "districts") @Data @NoArgsConstructor
+@Entity(name = "districts") @NoArgsConstructor
 public class District {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,5 +15,31 @@ public class District {
     private String name;
 
     @OneToMany(mappedBy = "district", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Sector> sectors = new HashSet<>();
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Sector> getSectors() {
+        return sectors;
+    }
+
+    public void setSectors(Set<Sector> sectors) {
+        this.sectors = sectors;
+    }
 }
