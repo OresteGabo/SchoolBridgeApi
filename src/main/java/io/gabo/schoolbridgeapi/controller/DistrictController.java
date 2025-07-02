@@ -2,14 +2,15 @@ package io.gabo.schoolbridgeapi.controller;
 
 import io.gabo.schoolbridgeapi.domain.District;
 import io.gabo.schoolbridgeapi.domain.Sector;
+import io.gabo.schoolbridgeapi.dto.DistrictDTO;
 import io.gabo.schoolbridgeapi.repository.DistrictRepository;
 import io.gabo.schoolbridgeapi.repository.SectorRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/districts")
@@ -24,28 +25,32 @@ public class DistrictController {
     }
 
     @GetMapping
-    public List<District> getAllDistricts() {
-        return districtRepository.findAll();
+    public List<DistrictDTO> getAllDistricts() {
+        List<District> districts = districtRepository.findAll();
+        return districts.stream()
+                .map(this::toDTOWithSectorCount)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<District> getDistrictById(@PathVariable Long id) {
+    public ResponseEntity<DistrictDTO> getDistrictById(@PathVariable Long id) {
         Optional<District> district = districtRepository.findById(id);
-        return district.map(ResponseEntity::ok)
+        return district.map(d -> ResponseEntity.ok(toDTOWithSectorCount(d)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public District createDistrict(@RequestBody District district) {
-        return districtRepository.save(district);
+    public DistrictDTO createDistrict(@RequestBody District district) {
+        District saved = districtRepository.save(district);
+        return toDTOWithSectorCount(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<District> updateDistrict(@PathVariable Long id, @RequestBody District updatedDistrict) {
+    public ResponseEntity<DistrictDTO> updateDistrict(@PathVariable Long id, @RequestBody District updatedDistrict) {
         return districtRepository.findById(id).map(district -> {
             district.setName(updatedDistrict.getName());
             District saved = districtRepository.save(district);
-            return ResponseEntity.ok(saved);
+            return ResponseEntity.ok(toDTOWithSectorCount(saved));
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -58,7 +63,6 @@ public class DistrictController {
         return ResponseEntity.notFound().build();
     }
 
-    // Get sectors by district ID
     @GetMapping("/{districtId}/sectors")
     public ResponseEntity<List<Sector>> getSectorsByDistrictId(@PathVariable Long districtId) {
         if (!districtRepository.existsById(districtId)) {
@@ -68,21 +72,22 @@ public class DistrictController {
         return ResponseEntity.ok(sectors);
     }
 
-    // Get sectors by district name (assuming district names are unique)
-    //TODO this is not working, have to debug later
     @GetMapping("/by-name/{districtName}/sectors")
     public ResponseEntity<List<Sector>> getSectorsByDistrictName(@PathVariable String districtName) {
-        return districtRepository.findByName(districtName)
-                .map(district -> {
-                    List<Sector> sectors = sectorRepository.findByDistrict(district);
-                    if (sectors.isEmpty()) {
-                        System.out.println("No sectors found for district: " + districtName );
-                    }else{
-                        System.out.println("Found " + sectors.size() + " sectors for district: " + districtName );
-                    }
-                    return ResponseEntity.ok(sectors);
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        List<District> districts = districtRepository.findByName(districtName);
+        if (districts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        // Just get sectors for the first district found (or aggregate if needed)
+        District district = districts.getFirst(); // or handle differently if you want all sectors of all matching districts
+        List<Sector> sectors = sectorRepository.findByDistrict(district);
+        return ResponseEntity.ok(sectors);
+    }
+
+
+    // Helper to build DTO with sector count
+    private DistrictDTO toDTOWithSectorCount(District district) {
+        int sectorCount = sectorRepository.countByDistrictId(district.getId());
+        return new DistrictDTO(district.getId(), district.getName(), sectorCount);
     }
 }
-
