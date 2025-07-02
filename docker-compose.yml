@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: schoolbridge-db
+    restart: always
+    environment:
+      POSTGRES_DB: schoolbridge
+      POSTGRES_USER: oreste
+      POSTGRES_PASSWORD: Muhirehonore@1*
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    image: openjdk:21
+    container_name: schoolbridge-api
+    depends_on:
+      - postgres
+    volumes:
+      - ./build/libs/schoolbridge-api.jar:/app/app.jar
+    working_dir: /app
+    command: ["java", "-jar", "app.jar"]
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/schoolbridge
+      SPRING_DATASOURCE_USERNAME: oreste
+      SPRING_DATASOURCE_PASSWORD: Muhirehonore@1*
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+volumes:
+  postgres_data:
