@@ -9,6 +9,42 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * Handles authentication-related endpoints.
+ *
+ * Currently supports basic login using a username or email.
+ *
+ * <p><b>Example Request:</b></p>
+ * <pre><code>
+ * POST /api/auth/login
+ * Content-Type: application/json
+ * {
+ *   "userNameOrEmail": "jean.uwimana1",
+ *   "password": "pass001"
+ * }
+ * </code></pre>
+ *
+ * <p><b>Successful Response:</b></p>
+ * <pre><code>
+ * {
+ *   "token": "dummy-token-for-user-jean.uwimana1",
+ *   "userName": "jean.uwimana1",
+ *   "message": "Login successful"
+ * }
+ * </code></pre>
+ *
+ * <p><b>Error Response (invalid credentials):</b></p>
+ * <pre><code>
+ * {
+ *   "token": null,
+ *   "userName": null,
+ *   "message": "Invalid password"
+ * }
+ * </code></pre>
+ *
+ * <p><b>Note:</b> This controller uses a stubbed token and plain text password check.
+ * Replace with secure logic (e.g., BCrypt & JWT) in production.</p>
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class UserController {
@@ -20,7 +56,12 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-
+    /**
+     * Login endpoint for authenticating a user by username or email.
+     *
+     * @param loginRequest Contains username/email and password.
+     * @return LoginResponse with token and user info if successful.
+     */
     @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         // Find user by username or email
