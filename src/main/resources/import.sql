@@ -4,7 +4,8 @@ INSERT INTO roles (description, db_name) VALUES
                                              ('School Admin', 'SCHOOL_ADMIN'),
                                              ('Parent', 'PARENT'),
                                              ('Teacher', 'TEACHER'),
-                                             ('Student', 'STUDENT');
+                                             ('Student', 'STUDENT'),
+                                             ('Guest', 'GUEST');
 
 -- Insert districts
 INSERT INTO districts (name) VALUES
@@ -134,18 +135,18 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Rusororo', 1),
                                             ('Jali', 1),
                                             ('Kanombe', 1),
-                                            ('Kibagabaga', 1);
+                                            ('Kibagabaga', 1),
 
--- Sectors for Kicukiro (district_id = 2)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Kicukiro (district_id = 2)
+
                                             ('Gahanga', 2),
                                             ('Kagarama', 2),
                                             ('Kicukiro', 2),
                                             ('Masaka', 2),
-                                            ('Nyarugunga', 2);
+                                            ('Nyarugunga', 2),
 
--- Sectors for Nyarugenge (district_id = 3)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Nyarugenge (district_id = 3)
+
                                             ('Gitega', 3),
                                             ('Kanyinya', 3),
                                             ('Kimisagara', 3),
@@ -153,10 +154,10 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Muhima', 3),
                                             ('Nyakabanda', 3),
                                             ('Nyarugenge', 3),
-                                            ('Rwezamenyo', 3);
+                                            ('Rwezamenyo', 3),
 
--- Sectors for Kayonza (district_id = 4)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Kayonza (district_id = 4)
+
                                             ('Cyarubare', 4),
                                             ('Kabare', 4),
                                             ('Murundi', 4),
@@ -164,10 +165,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Mwurire', 4),
                                             ('Ndego', 4),
                                             ('Nyamirama', 4),
-                                            ('Rwimbogo', 4);
+                                            ('Rwimbogo', 4),
 
--- Sectors for Kirehe (district_id = 5)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Kirehe (district_id = 5)
                                             ('Kigarama', 5),
                                             ('Kirehe', 5),
                                             ('Mahama', 5),
@@ -175,10 +175,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Muganza', 5),
                                             ('Musenyi', 5),
                                             ('Nyarubuye', 5),
-                                            ('Nyankurazo', 5);
+                                            ('Nyankurazo', 5),
 
--- Sectors for Ngoma (district_id = 6)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Ngoma (district_id = 6)
                                             ('Gashanda', 6),
                                             ('Jarama', 6),
                                             ('Karembo', 6),
@@ -186,10 +185,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Mugesera', 6),
                                             ('Nyamirama', 6),
                                             ('Nyange', 6),
-                                            ('Sake', 6);
+                                            ('Sake', 6),
 
--- Sectors for Rwamagana (district_id = 7)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Rwamagana (district_id = 7)
                                             ('Fumbwe', 7),
                                             ('Gahengeri', 7),
                                             ('Gishari', 7),
@@ -197,10 +195,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Nyakariro', 7),
                                             ('Nyamirama', 7),
                                             ('Rubona', 7),
-                                            ('Rwabicora', 7);
+                                            ('Rwabicora', 7),
 
--- Sectors for Gatsibo (district_id = 8)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Gatsibo (district_id = 8)
                                             ('Gatsibo', 8),
                                             ('Kabarore', 8),
                                             ('Kageyo', 8),
@@ -208,10 +205,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Mangar', 8),
                                             ('Muhura', 8),
                                             ('Murambi', 8),
-                                            ('Nibungirwa', 8);
+                                            ('Nibungirwa', 8),
 
--- Sectors for Nyagatare (district_id = 9)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Nyagatare (district_id = 9)
                                             ('Kiyombe', 9),
                                             ('Matimba', 9),
                                             ('Katabagemu', 9),
@@ -219,10 +215,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Nyagatare', 9),
                                             ('Rwimiyaga', 9),
                                             ('Nyakarenzo', 9),
-                                            ('Rukara', 9);
+                                            ('Rukara', 9),
 
--- Sectors for Bugesera (district_id = 10)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Bugesera (district_id = 10)
                                             ('Gashora', 10),
                                             ('Juru', 10),
                                             ('Mareba', 10),
@@ -231,10 +226,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Ntarama', 10),
                                             ('Nyamata', 10),
                                             ('Rilima', 10),
-                                            ('Ruhuha', 10);
+                                            ('Ruhuha', 10),
 
--- Sectors for Gicumbi (district_id = 11)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Gicumbi (district_id = 11)
                                             ('Bukure', 11),
                                             ('Bwisige', 11),
                                             ('Byumba', 11),
@@ -242,20 +236,18 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Gicumbi', 11),
                                             ('Ibuga', 11),
                                             ('Kaniga', 11),
-                                            ('Rukomo', 11);
+                                            ('Rukomo', 11),
 
--- Sectors for Musanze (district_id = 12)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Musanze (district_id = 12)
                                             ('Busogo', 12),
                                             ('Cyeru', 12),
                                             ('Kimonyi', 12),
                                             ('Musanze', 12),
                                             ('Muhoza', 12),
                                             ('Ruhengeri', 12),
-                                            ('Sabyinyo', 12);
+                                            ('Sabyinyo', 12),
 
--- Sectors for Burera (district_id = 13)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Burera (district_id = 13)
                                             ('Cyanika', 13),
                                             ('Gahunga', 13),
                                             ('Gahunga', 13),
@@ -263,10 +255,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Nyamiyaga', 13),
                                             ('Ruhunde', 13),
                                             ('Rugarama', 13),
-                                            ('Ruvune', 13);
+                                            ('Ruvune', 13),
 
--- Sectors for Rulindo (district_id = 14)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Rulindo (district_id = 14)
                                             ('Base', 14),
                                             ('Busasamana', 14),
                                             ('Burega', 14),
@@ -274,10 +265,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Kinigi', 14),
                                             ('Mukarange', 14),
                                             ('Musasa', 14),
-                                            ('Ntarabana', 14);
+                                            ('Ntarabana', 14),
 
--- Sectors for Gakenke (district_id = 15)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Gakenke (district_id = 15)
                                             ('Busengo', 15),
                                             ('Cyabingo', 15),
                                             ('Gakenke', 15),
@@ -285,20 +275,18 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Kamubuga', 15),
                                             ('Karambo', 15),
                                             ('Mugunga', 15),
-                                            ('Muhondo', 15);
+                                            ('Muhondo', 15),
 
--- Sectors for Musanze (district_id = 12)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Musanze (district_id = 12)
                                             ('Busogo', 12),
                                             ('Cyeru', 12),
                                             ('Kimonyi', 12),
                                             ('Musanze', 12),
                                             ('Muhoza', 12),
                                             ('Ruhengeri', 12),
-                                            ('Sabyinyo', 12);
+                                            ('Sabyinyo', 12),
 
--- Sectors for Nyabihu (district_id = 16)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Nyabihu (district_id = 16)
                                             ('Bigogwe', 16),
                                             ('Busheke', 16),
                                             ('Cyondo', 16),
@@ -306,10 +294,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Gatare', 16),
                                             ('Jomba', 16),
                                             ('Kabusiya', 16),
-                                            ('Karago', 16);
+                                            ('Karago', 16),
 
--- Sectors for Rubavu (district_id = 17)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Rubavu (district_id = 17)
                                             ('Bugeshi', 17),
                                             ('Cyanzarwe', 17),
                                             ('Gisenyi', 17),
@@ -317,10 +304,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Mururu', 17),
                                             ('Nyakiriba', 17),
                                             ('Nyundo', 17),
-                                            ('Rubavu', 17);
+                                            ('Rubavu', 17),
 
--- Sectors for Rusizi (district_id = 18)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Rusizi (district_id = 18)
                                             ('Bugarama', 18),
                                             ('Gihundwe', 18),
                                             ('Gikundamvura', 18),
@@ -328,10 +314,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Kamembe', 18),
                                             ('Mururu', 18),
                                             ('Nkungu', 18),
-                                            ('Nkombo', 18);
+                                            ('Nkombo', 18),
 
--- Sectors for Nyamasheke (district_id = 19)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Nyamasheke (district_id = 19)
                                             ('Bushekeri', 19),
                                             ('Gihombo', 19),
                                             ('Jenda', 19),
@@ -339,10 +324,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Kanjongo', 19),
                                             ('Karambi', 19),
                                             ('Mudende', 19),
-                                            ('Nyamasheke', 19);
+                                            ('Nyamasheke', 19),
 
--- Sectors for Karongi (district_id = 20)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Karongi (district_id = 20)
                                             ('Bwishyura', 20),
                                             ('Gitesi', 20),
                                             ('Gitesi', 20),
@@ -350,20 +334,18 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Murambi', 20),
                                             ('Mutuntu', 20),
                                             ('Rubengera', 20),
-                                            ('Ruganda', 20);
+                                            ('Ruganda', 20),
 
--- Sectors for Rutsiro (district_id = 21)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Rutsiro (district_id = 21)
                                             ('Gisovu', 21),
                                             ('Kivumu', 21),
                                             ('Mpundu', 21),
                                             ('Murunda', 21),
                                             ('Nyabirasi', 21),
                                             ('Nyundo', 21),
-                                            ('Rutsiro', 21);
+                                            ('Rutsiro', 21),
 
--- Sectors for Nyamagabe (district_id = 22)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Nyamagabe (district_id = 22)
                                             ('Bushekeri', 22),
                                             ('Cyeza', 22),
                                             ('Kabaya', 22),
@@ -371,10 +353,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Muganza', 22),
                                             ('Muko', 22),
                                             ('Nyamagabe', 22),
-                                            ('Save', 22);
+                                            ('Save', 22),
 
--- Sectors for Nyanza (district_id = 23)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Nyanza (district_id = 23)
                                             ('Busasamana', 23),
                                             ('Cyarubare', 23),
                                             ('Kibirizi', 23),
@@ -383,10 +364,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Mbazi', 23),
                                             ('Ntyazo', 23),
                                             ('Rugendabari', 23),
-                                            ('Rurembo', 23);
+                                            ('Rurembo', 23),
 
--- Sectors for Huye (district_id = 24)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Huye (district_id = 24)
                                             ('Gishamvu', 24),
                                             ('Karama', 24),
                                             ('Kibangu', 24),
@@ -394,10 +374,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Ngoma', 24),
                                             ('Ngoma', 24),
                                             ('Tumba', 24),
-                                            ('Cyangugu', 24);
+                                            ('Cyangugu', 24),
 
--- Sectors for Nyaruguru (district_id = 25)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Nyaruguru (district_id = 25)
                                             ('Busanze', 25),
                                             ('Kabaya', 25),
                                             ('Kibeho', 25),
@@ -405,19 +384,18 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Mpinga', 25),
                                             ('Nyabimata', 25),
                                             ('Ruhango', 25),
-                                            ('Tare', 25);
+                                            ('Tare', 25),
 
--- Sectors for Ruhango (district_id = 26)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Ruhango (district_id = 26)
                                             ('Bweramana', 26),
                                             ('Kinazi', 26),
                                             ('Mbuye', 26),
                                             ('Ntongwe', 26),
                                             ('Ruhango', 26),
-                                            ('Mwendo', 26);
+                                            ('Mwendo', 26),
 
--- Sectors for Muhanga (district_id = 27)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Muhanga (district_id = 27)
+
                                             ('Gitarama', 27),
                                             ('Kigabiro', 27),
                                             ('Kiyumba', 27),
@@ -425,10 +403,9 @@ INSERT INTO sectors (name, district_id) VALUES
                                             ('Muhanga', 27),
                                             ('Nyaruguru', 27),
                                             ('Rukoma', 27),
-                                            ('Shyogwe', 27);
+                                            ('Shyogwe', 27),
 
--- Sectors for Kamonyi (district_id = 28)
-INSERT INTO sectors (name, district_id) VALUES
+                                            -- Sectors for Kamonyi (district_id = 28)
                                             ('Gacurabwenge', 28),
                                             ('Kamabuye', 28),
                                             ('Karambo', 28),
@@ -459,109 +436,74 @@ INSERT INTO verification_type (label) VALUES
                                           ('DELEGATED_BY_VERIFIED_USER');
 
 INSERT INTO degree_types (name, description) VALUES
-    ('NURSERY', 'Nursery Certificate / Early childhood education'),
-    ('PRIMARY', 'Primary Certificate / Primary school education'),
-    ('O_LEVEL', 'Ordinary Level secondary education (Lower secondary)'),
-    ('A_LEVEL', 'Advanced Level secondary education (Upper secondary)'),
-    ('TVET', 'Technical and Vocational Education and Training'),
-    ('UNIVERSITY', 'University-level education (Bachelor, Masters, PhD)'),
-    ('ADULT_EDU', 'Adult education and literacy programs'),
-    ('TEACHER_TRAINING', 'Teacher training colleges and programs');
+                                                 ('NURSERY', 'Nursery Certificate / Early childhood education'),
+                                                 ('PRIMARY', 'Primary Certificate / Primary school education'),
+                                                 ('O_LEVEL', 'Ordinary Level secondary education (Lower secondary)'),
+                                                 ('A_LEVEL', 'Advanced Level secondary education (Upper secondary)'),
+                                                 ('TVET', 'Technical and Vocational Education and Training'),
+                                                 ('UNIVERSITY', 'University-level education (Bachelor, Masters, PhD)'),
+                                                 ('ADULT_EDU', 'Adult education and literacy programs'),
+                                                 ('TEACHER_TRAINING', 'Teacher training colleges and programs');
 
 INSERT INTO education_levels (degree_type_id, description, level_order) VALUES
-    ((SELECT id FROM degree_types WHERE name = 'NURSERY'), 'Pre-primary early childhood education', -1),
-    ((SELECT id FROM degree_types WHERE name = 'PRIMARY'), 'Primary school education (P1–P6)', 1),
-    ((SELECT id FROM degree_types WHERE name = 'O_LEVEL'), 'Lower secondary education (S1–S3)', 2),
-    ((SELECT id FROM degree_types WHERE name = 'A_LEVEL'), 'Upper secondary education (S4–S6), including science and literature streams', 3),
-    ((SELECT id FROM degree_types WHERE name = 'TVET'), 'Technical and Vocational Education and Training (Levels 3–5)', 4),
-    ((SELECT id FROM degree_types WHERE name = 'UNIVERSITY'), 'Higher education, including Bachelor, Masters, and PhD degrees', 5),
-    ((SELECT id FROM degree_types WHERE name = 'ADULT_EDU'), 'Special adult learning programs (alphabetization, etc.)', 6),
-    ((SELECT id FROM degree_types WHERE name = 'TEACHER_TRAINING'), 'Teacher training colleges (TTCs)', 3);
+                                                                            ((SELECT id FROM degree_types WHERE name = 'NURSERY'), 'Pre-primary early childhood education', -1),
+                                                                            ((SELECT id FROM degree_types WHERE name = 'PRIMARY'), 'Primary school education (P1–P6)', 1),
+                                                                            ((SELECT id FROM degree_types WHERE name = 'O_LEVEL'), 'Lower secondary education (S1–S3)', 2),
+                                                                            ((SELECT id FROM degree_types WHERE name = 'A_LEVEL'), 'Upper secondary education (S4–S6), including science and literature streams', 3),
+                                                                            ((SELECT id FROM degree_types WHERE name = 'TVET'), 'Technical and Vocational Education and Training (Levels 3–5)', 4),
+                                                                            ((SELECT id FROM degree_types WHERE name = 'UNIVERSITY'), 'Higher education, including Bachelor, Masters, and PhD degrees', 5),
+                                                                            ((SELECT id FROM degree_types WHERE name = 'ADULT_EDU'), 'Special adult learning programs (alphabetization, etc.)', 6),
+                                                                            ((SELECT id FROM degree_types WHERE name = 'TEACHER_TRAINING'), 'Teacher training colleges (TTCs)', 3);
 
-/*
-INSERT INTO sections (id, name, education_level_id) VALUES
-  -- A_LEVEL Sections
-  (1, 'Science', 2),
-  (2, 'Arts', 2),
-  (3, 'Commerce', 2),
-  (4, 'Computer Science', 2),
-  (5, 'Biology', 2),
 
-  -- TVET Sections
-  (6, 'Electrical Engineering', 3),
-  (7, 'Automotive Technology', 3),
-  (8, 'Hospitality Management', 3),
-  (9, 'Welding and Fabrication', 3),
-  (10, 'Information Technology', 3),
-
-  -- UNIVERSITY Sections
-  (11, 'Faculty of Science', 4),
-  (12, 'Faculty of Arts', 4),
-  (13, 'Faculty of Engineering', 4),
-  (14, 'Faculty of Business', 4),
-  (15, 'Faculty of Medicine', 4),
-
-  -- PRIMARY Sections (Grades)
-  (16, 'Grade 1', 5),
-  (17, 'Grade 2', 5),
-  (18, 'Grade 3', 5),
-  (19, 'Grade 4', 5),
-  (20, 'Grade 5', 5),
-  (21, 'Grade 6', 5),
-
-  -- NURSERY Sections
-  (22, 'Nursery 1', 6),
-  (23, 'Nursery 2', 6),
-  (24, 'Pre-primary', 6),
-  (25,'Science', 2),
- (26,'Literature', 2);
-*/
 -- Sections for A_LEVEL
 INSERT INTO sections (id, name, education_level_id) VALUES
-                                                        (1, 'Science', 1),
-                                                        (2, 'Arts', 1),
-                                                        (3, 'Commerce', 1),
-                                                        (4, 'Literature', 1),
-                                                        (5, 'Computer Science', 1),
-                                                        (6, 'Mathematics', 1),
-                                                        (7, 'Languages', 1);
+                                                        (1, 'Science', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'A_LEVEL')),
+                                                        (2, 'Arts', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'A_LEVEL')),
+                                                        (3, 'Commerce', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'A_LEVEL')),
+                                                        (4, 'Literature', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'A_LEVEL')),
+                                                        (5, 'Computer Science', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'A_LEVEL')),
+                                                        (6, 'Mathematics', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'A_LEVEL')),
+                                                        (7, 'Languages', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'A_LEVEL'));
 
 -- Sections for TVET
 INSERT INTO sections (id, name, education_level_id) VALUES
-                                                        (8, 'Electrical Engineering', 2),
-                                                        (9, 'Construction Technology', 2),
-                                                        (10, 'Automotive Mechanics', 2),
-                                                        (11, 'Carpentry and Joinery', 2),
-                                                        (12, 'Catering and Hotel Management', 2),
-                                                        (13, 'Agriculture', 2),
-                                                        (14, 'Welding and Fabrication', 2),
-                                                        (15, 'Plumbing', 2),
-                                                        (16, 'Information Technology', 2);
+                                                        (8, 'Electrical Engineering', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'TVET')),
+                                                        (9, 'Construction Technology', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'TVET')),
+                                                        (10, 'Automotive Mechanics', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'TVET')),
+                                                        (11, 'Carpentry and Joinery', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'TVET')),
+                                                        (12, 'Catering and Hotel Management', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'TVET')),
+                                                        (13, 'Agriculture', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'TVET')),
+                                                        (14, 'Welding and Fabrication', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'TVET')),
+                                                        (15, 'Plumbing', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'TVET')),
+                                                        (16, 'Information Technology', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'TVET'));
 
 -- Sections for UNIVERSITY
 INSERT INTO sections (id, name, education_level_id) VALUES
-                                                        (17, 'Faculty of Science', 3),
-                                                        (18, 'Faculty of Arts', 3),
-                                                        (19, 'Faculty of Law', 3),
-                                                        (20, 'Faculty of Engineering', 3),
-                                                        (21, 'Faculty of Business', 3),
-                                                        (22, 'Faculty of Education', 3),
-                                                        (23, 'Faculty of Medicine', 3);
+                                                        (17, 'Faculty of Science', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'UNIVERSITY')),
+                                                        (18, 'Faculty of Arts', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'UNIVERSITY')),
+                                                        (19, 'Faculty of Law', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'UNIVERSITY')),
+                                                        (20, 'Faculty of Engineering', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'UNIVERSITY')),
+                                                        (21, 'Faculty of Business', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'UNIVERSITY')),
+                                                        (22, 'Faculty of Education', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'UNIVERSITY')),
+                                                        (23, 'Faculty of Medicine', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'UNIVERSITY'));
 
 -- Sections for PRIMARY
 INSERT INTO sections (id, name, education_level_id) VALUES
-                                                        (24, 'Grade 1', 4),
-                                                        (25, 'Grade 2', 4),
-                                                        (26, 'Grade 3', 4),
-                                                        (27, 'Grade 4', 4),
-                                                        (28, 'Grade 5', 4),
-                                                        (29, 'Grade 6', 4);
+                                                        (24, 'Grade 1', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'PRIMARY')),
+                                                        (25, 'Grade 2', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'PRIMARY')),
+                                                        (26, 'Grade 3', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'PRIMARY')),
+                                                        (27, 'Grade 4', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'PRIMARY')),
+                                                        (28, 'Grade 5', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'PRIMARY')),
+                                                        (29, 'Grade 6', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'PRIMARY'));
 
 -- Sections for NURSERY
 INSERT INTO sections (id, name, education_level_id) VALUES
-                                                        (30, 'Nursery 1', 5),
-                                                        (31, 'Nursery 2', 5),
-                                                        (32, 'Pre-primary', 5);
+                                                        (30, 'Nursery 1', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'NURSERY')),
+                                                        (31, 'Nursery 2', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'NURSERY')),
+                                                        (32, 'Pre-primary', (SELECT e.id FROM education_levels e JOIN degree_types d ON e.degree_type_id = d.id WHERE d.name = 'NURSERY'));
+
+
 
 INSERT INTO schools (id, name, abbrev_name, logo_url, has_boarding, contact_phone, contact_email, website_url, district_id, sector_id) VALUES
                                                                                                                                            (1, 'Kigali High School', 'KHS', NULL, TRUE, '+250788123456', 'info@khs.rw', 'https://khs.rw', 1, 1),
