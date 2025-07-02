@@ -1,4 +1,5 @@
 package io.gabo.schoolbridgeapi.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +23,7 @@ public class School {
     @ManyToOne(optional = false) private Sector sector;
 
     @OneToMany(mappedBy = "school")
+    @JsonIgnore
     private Set<SchoolEducationLevel> levelLinks = new HashSet<>();
 
 
