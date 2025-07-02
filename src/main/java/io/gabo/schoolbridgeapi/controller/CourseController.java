@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @RestController
 @RequestMapping("/api/courses")
