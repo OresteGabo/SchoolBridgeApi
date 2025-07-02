@@ -1,6 +1,7 @@
 package io.gabo.schoolbridgeapi.controller;
 
 import io.gabo.schoolbridgeapi.domain.Section;
+import io.gabo.schoolbridgeapi.dto.SectionDTO;
 import io.gabo.schoolbridgeapi.repository.SectionRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,28 +20,38 @@ public class SectionController {
     }
 
     @GetMapping
-    public List<Section> getAllSections() {
-        return sectionRepository.findAll();
+    public List<SectionDTO> getAllSections() {
+        return sectionRepository.findAll().stream()
+                .map(this::toDTO)
+                .toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Section> getSectionById(@PathVariable Long id) {
-        Optional<Section> section = sectionRepository.findById(id);
-        return section.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<SectionDTO> getSectionById(@PathVariable Long id) {
+        return sectionRepository.findById(id)
+                .map(this::toDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
+
+
+
     @GetMapping("/education-level/{educationLevelId}")
-    public List<Section> getSectionsByEducationLevel(@PathVariable Long educationLevelId) {
-        return sectionRepository.findByEducationLevelId(educationLevelId);
+    public List<SectionDTO> getSectionsByEducationLevel(@PathVariable Long educationLevelId) {
+        return sectionRepository.findByEducationLevelId(educationLevelId).stream()
+                .map(this::toDTO)
+                .toList();
     }
 
     @GetMapping("/by-name/{name}")
-    public ResponseEntity<Section> getSectionByName(@PathVariable String name) {
-        Optional<Section> section = sectionRepository.findByNameIgnoreCase(name);
-        return section.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<SectionDTO> getSectionByName(@PathVariable String name) {
+        return sectionRepository.findByNameIgnoreCase(name)
+                .map(this::toDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
+
 
     @PostMapping
     public Section createSection(@RequestBody Section section) {
@@ -64,5 +75,14 @@ public class SectionController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+
+    private SectionDTO toDTO(Section section) {
+        return new SectionDTO(
+                section.getId(),
+                section.getName(),
+                section.getEducationLevel().getDegreeType().getName()
+        );
     }
 }
