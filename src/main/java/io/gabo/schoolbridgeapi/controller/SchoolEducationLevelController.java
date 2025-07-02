@@ -2,6 +2,7 @@ package io.gabo.schoolbridgeapi.controller;
 
 import io.gabo.schoolbridgeapi.domain.SchoolEducationLevel;
 import io.gabo.schoolbridgeapi.domain.SchoolEducationLevelKey;
+import io.gabo.schoolbridgeapi.dto.SchoolEducationLevelDTO;
 import io.gabo.schoolbridgeapi.repository.SchoolEducationLevelRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,17 @@ public class SchoolEducationLevelController {
     }
 
     @GetMapping("/by-school/{schoolId}")
-    public List<SchoolEducationLevel> getBySchool(@PathVariable Long schoolId) {
-        return repository.findBySchoolId(schoolId);
+    public List<SchoolEducationLevelDTO> getBySchool(@PathVariable Long schoolId) {
+        List<SchoolEducationLevel> entities = repository.findBySchoolId(schoolId);
+
+        return entities.stream()
+                .map(e -> new SchoolEducationLevelDTO(
+                        e.getSchool().getId(),
+                        e.getSchool().getName(),
+                        e.getEducationLevel().getId(),
+                        e.getEducationLevel().getDescription()
+                ))
+                .toList(); // Or .collect(Collectors.toList()) in older Java versions
     }
 
     @GetMapping("/by-education-level/{educationLevelId}")
