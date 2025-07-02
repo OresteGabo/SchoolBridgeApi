@@ -9,18 +9,7 @@ import java.util.Set;
 
 
 
-@Entity(name = "courses") @Data @NoArgsConstructor
-class Course {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false, length = 50, unique = true)
-    private String name;
-    @Column(length = 250)
-    private String description;
-}
-
-/*
-@Entity @Data @NoArgsConstructor
+@Entity (name ="courses") @Data @NoArgsConstructor
 class Course {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     @Column(nullable = false, length = 50, unique = true) private String name;
@@ -28,6 +17,4 @@ class Course {
 
     // reverse link for clarity
     @ManyToMany(mappedBy = "mainCourses") private Set<Combination> combinations = new HashSet<>();
-
 }
-*/
