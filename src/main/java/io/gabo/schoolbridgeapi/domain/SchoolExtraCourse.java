@@ -7,15 +7,11 @@ import jakarta.persistence.MapsId;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "school_extra_courses")
-@Data
-@NoArgsConstructor
-class SchoolExtraCourse {
-    @EmbeddedId
-    private SchoolExtraCourseKey id;
 
-    @ManyToOne(optional = false) @MapsId("schoolLevelOfferingId")
-    private SchoolLevelOffering offering;
-    @ManyToOne(optional = false) @MapsId("courseId")
-    private Course course;
+@Entity(name = "school_extra_courses") @Data @NoArgsConstructor
+class SchoolExtraCourse {
+    @EmbeddedId private SchoolExtraCourseKey id;
+
+    @ManyToOne(optional = false) @MapsId("schoolLevelOfferingId") private SchoolLevelOffering offering;
+    @ManyToOne(optional = false) @MapsId("courseId")              private Course course;
 }
