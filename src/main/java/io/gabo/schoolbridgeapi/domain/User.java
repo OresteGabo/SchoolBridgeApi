@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Entity @NoArgsConstructor
@@ -19,6 +20,12 @@ public class User {
     private String familyName;
     @Column(nullable = false, length = 40)
     private String firstName;
+
+    @Column(nullable = true, length = 15)
+    private String phoneNumber;
+
+    @Column(nullable = true, length = 20)
+    private String nationalId;
 
     @Column(nullable = false, length = 40, unique = true)
     private String userName;
@@ -35,13 +42,34 @@ public class User {
 
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
+    public Boolean hasRole(UserRole role) {
+        return roles.contains(role);
+    }
+    public Boolean hasRole(String role) {
+        for (UserRole userRole : roles) {
+            if( userRole.getDbName().equals(role) )
+                return true;
+        }
+        return false;
+    }
+
     // Many‑to‑many link to Role via join table user_roles
     @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
-    private Set<Role> roles = new HashSet<>();
+    private Set<UserRole> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Set<StudentEnrollment> enrollments = new HashSet<>();
+
+    @JsonIgnore     // prevents endless JSON recursion
+    public Optional<StudentEnrollment> getCurrentEnrollment() {
+        return enrollments.stream().filter(StudentEnrollment::isCurrent).findFirst();
+    }
 
     public Long getId() {
         return id;
@@ -115,11 +143,34 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public Set<Role> getRoles() {
+    public Set<UserRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<UserRole> roles) {
         this.roles = roles;
+    }
+    public Set<StudentEnrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getNationalId() {
+        return nationalId;
+    }
+
+    public void setNationalId(String nationalId) {
+        this.nationalId = nationalId;
+    }
+
+    public void setEnrollments(Set<StudentEnrollment> enrollments) {
+        this.enrollments = enrollments;
     }
 }
