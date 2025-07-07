@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
 
+/**
+ * Schools should not have directly degree types, but they rather have education_levels, which will link to degree_types.
+ * */
+
 @Entity(name = "degree_types")
 @NoArgsConstructor
 public class DegreeType {
