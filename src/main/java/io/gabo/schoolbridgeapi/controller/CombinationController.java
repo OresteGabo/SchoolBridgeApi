@@ -2,13 +2,12 @@ package io.gabo.schoolbridgeapi.controller;
 
 import io.gabo.schoolbridgeapi.domain.Combination;
 import io.gabo.schoolbridgeapi.domain.Course;
-import io.gabo.schoolbridgeapi.domain.Section;
+import io.gabo.schoolbridgeapi.domain.EducationLevel;
 import io.gabo.schoolbridgeapi.dto.CombinationDTO;
 import io.gabo.schoolbridgeapi.dto.CourseDTO;
-import io.gabo.schoolbridgeapi.dto.SectionDTO;
 import io.gabo.schoolbridgeapi.repository.CombinationRepository;
 import io.gabo.schoolbridgeapi.repository.CourseRepository;
-import io.gabo.schoolbridgeapi.repository.SectionRepository;
+import io.gabo.schoolbridgeapi.repository.EducationLevelRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,69 +19,68 @@ import java.util.stream.Collectors;
 public class CombinationController {
 
     private final CombinationRepository combinationRepository;
-    private final SectionRepository sectionRepository;
     private final CourseRepository courseRepository;
+    private final EducationLevelRepository educationLevelRepository;
 
-    public CombinationController(CombinationRepository combinationRepository,
-                                 SectionRepository sectionRepository,
-                                 CourseRepository courseRepository) {
+    public CombinationController(
+            CombinationRepository combinationRepository,
+            CourseRepository courseRepository,
+            EducationLevelRepository educationLevelRepository
+    ) {
         this.combinationRepository = combinationRepository;
-        this.sectionRepository = sectionRepository;
         this.courseRepository = courseRepository;
+        this.educationLevelRepository = educationLevelRepository;
     }
 
     @GetMapping
     public List<CombinationDTO> getAllCombinations() {
         List<Combination> combinations = combinationRepository.findAll();
-        // Force fetch of lazy collections
         combinations.forEach(c -> {
             c.getMainCourses().size();
-            if (c.getSection() != null && c.getSection().getEducationLevel() != null) {
-                c.getSection().getEducationLevel().getDegreeType().getName();
+            if (c.getEducationLevel() != null && c.getEducationLevel().getDegreeType() != null) {
+                c.getEducationLevel().getDegreeType().getName();
             }
         });
         return combinations.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<CombinationDTO> getCombinationById(@PathVariable Long id) {
-        Optional<Combination> combination = combinationRepository.findById(id);
-        return combination.map(value -> ResponseEntity.ok(toDTO(value)))
+        return combinationRepository.findById(id)
+                .map(value -> ResponseEntity.ok(toDTO(value)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/by-code/{code}")
     public ResponseEntity<CombinationDTO> getCombinationByCode(@PathVariable String code) {
-        Optional<Combination> combination = combinationRepository.findByCodeIgnoreCase(code);
-        return combination.map(value -> ResponseEntity.ok(toDTO(value)))
+        return combinationRepository.findByCodeIgnoreCase(code)
+                .map(value -> ResponseEntity.ok(toDTO(value)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public CombinationDTO createCombination(@RequestBody CombinationDTO combinationDTO) {
-        Combination combination = fromDTO(combinationDTO);
+    public CombinationDTO createCombination(@RequestBody CombinationDTO dto) {
+        Combination combination = fromDTO(dto);
         Combination saved = combinationRepository.save(combination);
         return toDTO(saved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CombinationDTO> updateCombination(@PathVariable Long id,
-                                                            @RequestBody CombinationDTO updatedCombinationDTO) {
+    public ResponseEntity<CombinationDTO> updateCombination(@PathVariable Long id, @RequestBody CombinationDTO dto) {
         return combinationRepository.findById(id).map(existing -> {
-            existing.setCode(updatedCombinationDTO.getCode());
-            existing.setDescription(updatedCombinationDTO.getDescription());
+            existing.setCode(dto.getCode());
+            existing.setDescription(dto.getDescription());
 
-            // Update Section if provided
-            if (updatedCombinationDTO.getSection() != null && updatedCombinationDTO.getSection().getId() != null) {
-                sectionRepository.findById(updatedCombinationDTO.getSection().getId())
-                        .ifPresent(existing::setSection);
+            // Set Education Level
+            if (dto.getEducationLevelId() != null) {
+                educationLevelRepository.findById(dto.getEducationLevelId())
+                        .ifPresent(existing::setEducationLevel);
             }
 
-            // Update main courses if provided
-            if (updatedCombinationDTO.getMainCourses() != null) {
+            // Update main courses
+            if (dto.getMainCourses() != null) {
                 Set<Course> courses = new HashSet<>();
-                for (CourseDTO courseDTO : updatedCombinationDTO.getMainCourses()) {
+                for (CourseDTO courseDTO : dto.getMainCourses()) {
                     if (courseDTO.getId() != null) {
                         courseRepository.findById(courseDTO.getId()).ifPresent(courses::add);
                     }
@@ -106,22 +104,13 @@ public class CombinationController {
         return ResponseEntity.notFound().build();
     }
 
-    // --- Helper methods to convert between entity and DTO ---
+    // --- Mapping Helpers ---
 
     private CombinationDTO toDTO(Combination combination) {
-        Section section = combination.getSection();
-        SectionDTO sectionDTO = null;
-        if (section != null) {
-            String educationLevelName = null;
-            if (section.getEducationLevel() != null && section.getEducationLevel().getDegreeType() != null) {
-                educationLevelName = section.getEducationLevel().getDegreeType().getName();
-            }
-            sectionDTO = new SectionDTO(
-                    section.getId(),
-                    section.getName(),
-                    educationLevelName
-            );
-        }
+        String educationLevelName = combination.getEducationLevel() != null &&
+                combination.getEducationLevel().getDegreeType() != null
+                ? combination.getEducationLevel().getDegreeType().getName()
+                : null;
 
         List<CourseDTO> courseDTOs = combination.getMainCourses().stream()
                 .map(c -> new CourseDTO(c.getId(), c.getName(), c.getDescription()))
@@ -131,20 +120,20 @@ public class CombinationController {
                 combination.getId(),
                 combination.getCode(),
                 combination.getDescription(),
-                sectionDTO,
+                combination.getEducationLevel() != null ? combination.getEducationLevel().getId() : null,
+                educationLevelName,
                 courseDTOs
         );
     }
-
 
     private Combination fromDTO(CombinationDTO dto) {
         Combination combination = new Combination();
         combination.setCode(dto.getCode());
         combination.setDescription(dto.getDescription());
 
-        if (dto.getSection() != null && dto.getSection().getId() != null) {
-            sectionRepository.findById(dto.getSection().getId())
-                    .ifPresent(combination::setSection);
+        if (dto.getEducationLevelId() != null) {
+            educationLevelRepository.findById(dto.getEducationLevelId())
+                    .ifPresent(combination::setEducationLevel);
         }
 
         if (dto.getMainCourses() != null) {
