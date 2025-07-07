@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import jakarta.persistence.Entity;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 @Entity(name = "roles")
 @NoArgsConstructor
-public class Role {
+public class UserRole {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, length = 50)
@@ -37,4 +39,6 @@ public class Role {
     public void setDbName(String dbName) {
         this.dbName = dbName;
     }
+
+
 }
