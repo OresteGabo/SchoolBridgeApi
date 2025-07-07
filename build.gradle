@@ -18,12 +18,30 @@ repositories {
 }
 
 dependencies {
+    /* ───── Core Spring starters ───── */
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.projectlombok:lombok:1.18.34'
+    implementation 'org.springframework.boot:spring-boot-starter-security'   // ▲ NEW
+
+    /* ───── Database driver ───── */
+    implementation 'org.postgresql:postgresql:42.7.3'
+
+    /* ───── Validation (Jakarta 3.x) ───── */
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+
+    /* ───── JSON Web Token (JJWT) ───── */
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.4'       // API
+    runtimeOnly  'io.jsonwebtoken:jjwt-impl:0.12.4'        // Default impl
+    runtimeOnly  'io.jsonwebtoken:jjwt-jackson:0.12.4'     // Uses Jackson serializer
+
+    /* ───── Lombok ───── */
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    /* ───── Testing ───── */
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'   // ▲ NEW
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    implementation("org.postgresql:postgresql:42.7.3")
 }
 
 tasks.named('test') {
