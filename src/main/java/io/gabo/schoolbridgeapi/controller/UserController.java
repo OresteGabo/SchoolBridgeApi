@@ -1,89 +1,96 @@
 package io.gabo.schoolbridgeapi.controller;
 
-import io.gabo.schoolbridgeapi.domain.User;
-import io.gabo.schoolbridgeapi.dto.LoginRequest;
-import io.gabo.schoolbridgeapi.dto.LoginResponse;
+import io.gabo.schoolbridgeapi.dto.LoginRequestDTO;
+import io.gabo.schoolbridgeapi.dto.LoginResponseDTO;
+import io.gabo.schoolbridgeapi.dto.UserInfoDTO;
+import io.gabo.schoolbridgeapi.service.AuthService;
 import io.gabo.schoolbridgeapi.repository.UserRepository;
+import io.gabo.schoolbridgeapi.domain.UserRole;
+import io.gabo.schoolbridgeapi.domain.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-/**
- * Handles authentication-related endpoints.
- *
- * Currently supports basic login using a username or email.
- *
- * <p><b>Example Request:</b></p>
- * <pre><code>
- * POST /api/auth/login
- * Content-Type: application/json
- * {
- *   "userNameOrEmail": "jean.uwimana1",
- *   "password": "pass001"
- * }
- * </code></pre>
- *
- * <p><b>Successful Response:</b></p>
- * <pre><code>
- * {
- *   "token": "dummy-token-for-user-jean.uwimana1",
- *   "userName": "jean.uwimana1",
- *   "message": "Login successful"
- * }
- * </code></pre>
- *
- * <p><b>Error Response (invalid credentials):</b></p>
- * <pre><code>
- * {
- *   "token": null,
- *   "userName": null,
- *   "message": "Invalid password"
- * }
- * </code></pre>
- *
- * <p><b>Note:</b> This controller uses a stubbed token and plain text password check.
- * Replace with secure logic (e.g., BCrypt & JWT) in production.</p>
- */
 @RestController
 @RequestMapping("/api/auth")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserRepository userRepo;
+    private final AuthService    authService;
 
-    // For demo purposes; in real app, you’d inject authService and password encoder
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserRepository userRepo, AuthService authService) {
+        this.userRepo    = userRepo;
+        this.authService = authService;
     }
 
-    /**
-     * Login endpoint for authenticating a user by username or email.
-     *
-     * @param loginRequest Contains username/email and password.
-     * @return LoginResponse with token and user info if successful.
-     */
-    @PostMapping(value = "/login", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        // Find user by username or email
-        Optional<User> userOpt = userRepository.findByUserName(loginRequest.getUserNameOrEmail());
-        if (userOpt.isEmpty()) {
-            userOpt = userRepository.findByEmail(loginRequest.getUserNameOrEmail());
-        }
-        if (userOpt.isEmpty()) {
-            return ResponseEntity.status(401).body(new LoginResponse(null, null, "User not found"));
-        }
+    /* ---------- LOGIN ---------- */
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequestDTO req) {
 
-        User user = userOpt.get();
-        // TODO: Replace with real password hash verification (e.g., BCrypt)
-        if (!user.getPasswordHash().equals(loginRequest.getPassword())) {
-            return ResponseEntity.status(401).body(new LoginResponse(null, null, "Invalid password"));
+        System.out.println("--------------------------------------------------");
+        System.out.println("🕒 [" + LocalDateTime.now() + "]  LOGIN attempt");
+        System.out.println("   ↳ username/email : " + req.getUsername());
+        System.out.println("   ↳ raw password   : " + req.getPassword());
+        System.out.println("--------------------------------------------------");
+
+        try {
+            LoginResponseDTO response =
+                    authService.authenticateUser(req.getUsername(), req.getPassword());
+
+            System.out.println("✅ LOGIN successful for " + req.getUsername());
+            System.out.println("   ↳ Issued authToken    : " + response.getAuthToken());
+            System.out.println("   ↳ Roles               : " + response.getActiveRoles());
+            System.out.println("--------------------------------------------------\n");
+            return ResponseEntity.ok(response);
+
+        } catch (RuntimeException ex) {
+
+            System.out.println("❌ LOGIN failed for " + req.getUsername()
+                    + "  –  reason: " + ex.getMessage());
+            System.out.println("--------------------------------------------------\n");
+            return ResponseEntity.status(401).body(Map.of("error", ex.getMessage()));
         }
-
-        // Generate token (stub)
-        String token = "dummy-token-for-user-" + user.getUserName();
-
-        return ResponseEntity.ok(new LoginResponse(token, user.getUserName(), "Login successful"));
     }
 
-    // You can add CRUD endpoints for User here if needed
+    /* ---------- CURRENT USER INFO ---------- */
+    @GetMapping("/me")
+    public ResponseEntity<UserInfoDTO> me(Principal principal) {
+
+        System.out.println("--------------------------------------------------");
+        System.out.println("🕒 [" + LocalDateTime.now() + "]  /me requested by token subject: "
+                + principal.getName());
+
+        Optional<User> userOpt = userRepo.findByUserName(principal.getName());
+
+        if (userOpt.isEmpty()) {
+            System.out.println("⚠️  /me – user not found: " + principal.getName());
+            System.out.println("--------------------------------------------------\n");
+            return ResponseEntity.notFound().build();
+        }
+
+        User u = userOpt.get();
+        Set<String> roles = u.getRoles().stream()
+                .map(UserRole::getDbName)
+                .collect(Collectors.toSet());
+
+        System.out.println("✅ /me – found user: " + u.getUserName()
+                + "  (id=" + u.getId() + ")");
+        System.out.println("   ↳ Roles: " + roles);
+        System.out.println("--------------------------------------------------\n");
+
+        UserInfoDTO dto = new UserInfoDTO(
+                u.getId(),
+                u.getUserName(),
+                u.getEmail(),
+                u.getFirstName() + " " + u.getFamilyName(),
+                roles
+        );
+        return ResponseEntity.ok(dto);
+    }
 }
