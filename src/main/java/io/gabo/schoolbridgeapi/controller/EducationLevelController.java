@@ -1,12 +1,14 @@
+
 package io.gabo.schoolbridgeapi.controller;
 
 import io.gabo.schoolbridgeapi.domain.EducationLevel;
+import io.gabo.schoolbridgeapi.dto.EducationLevelDTO;
 import io.gabo.schoolbridgeapi.repository.EducationLevelRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/education-levels")
@@ -18,40 +20,27 @@ public class EducationLevelController {
         this.educationLevelRepository = educationLevelRepository;
     }
 
-    @GetMapping
-    public List<EducationLevel> getAllEducationLevels() {
-        return educationLevelRepository.findAll();
+    @GetMapping("/by-degree-type/{name}")
+    public ResponseEntity<List<EducationLevelDTO>> getByDegreeTypeName(@PathVariable String name) {
+
+        List<EducationLevelDTO> result = educationLevelRepository
+                .findByDegreeType_NameIgnoreCaseOrderByLevelOrderAsc(name)
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+
+        return result.isEmpty()
+                ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(result);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EducationLevel> getEducationLevelById(@PathVariable Long id) {
-        Optional<EducationLevel> educationLevel = educationLevelRepository.findById(id);
-        return educationLevel.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    private EducationLevelDTO toDto(EducationLevel level) {
+        EducationLevelDTO dto = new EducationLevelDTO();
+        dto.setId(level.getId());
+        dto.setDegreeTypeName(level.getDegreeType().getName());
+        dto.setDescription(level.getDescription());
+        dto.setLevelOrder(level.getLevelOrder());
+        return dto;
     }
 
-    @PostMapping
-    public EducationLevel createEducationLevel(@RequestBody EducationLevel educationLevel) {
-        return educationLevelRepository.save(educationLevel);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<EducationLevel> updateEducationLevel(@PathVariable Long id, @RequestBody EducationLevel updatedEducationLevel) {
-        return educationLevelRepository.findById(id).map(educationLevel -> {
-            educationLevel.setDegreeType(updatedEducationLevel.getDegreeType());
-            educationLevel.setDescription(updatedEducationLevel.getDescription());
-            educationLevel.setLevelOrder(updatedEducationLevel.getLevelOrder());
-            EducationLevel saved = educationLevelRepository.save(educationLevel);
-            return ResponseEntity.ok(saved);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEducationLevel(@PathVariable Long id) {
-        if (educationLevelRepository.existsById(id)) {
-            educationLevelRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
-    }
 }
