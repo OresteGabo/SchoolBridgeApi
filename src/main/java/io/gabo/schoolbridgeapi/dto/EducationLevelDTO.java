@@ -1,16 +1,24 @@
 package io.gabo.schoolbridgeapi.dto;
 
 public class EducationLevelDTO {
+
     private Long id;
-    private String name;
-    private String degreeType;
+    private Long degreeTypeId;     // incoming/outgoing id
+    private String degreeTypeName; // outgoing label (read‑only)
     private String description;
     private Integer levelOrder;
 
-    public EducationLevelDTO(Long id, String name, String degreeType, String description, Integer levelOrder) {
+    /*–– constructors ––*/
+    public EducationLevelDTO() {}  // ← required by Jackson
+
+    public EducationLevelDTO(Long id,
+                             Long degreeTypeId,
+                             String degreeTypeName,
+                             String description,
+                             Integer levelOrder) {
         this.id = id;
-        this.name = name;
-        this.degreeType = degreeType;
+        this.degreeTypeId = degreeTypeId;
+        this.degreeTypeName = degreeTypeName;
         this.description = description;
         this.levelOrder = levelOrder;
     }
@@ -23,20 +31,20 @@ public class EducationLevelDTO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Long getDegreeTypeId() {
+        return degreeTypeId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDegreeTypeId(Long degreeTypeId) {
+        this.degreeTypeId = degreeTypeId;
     }
 
-    public String getDegreeType() {
-        return degreeType;
+    public String getDegreeTypeName() {
+        return degreeTypeName;
     }
 
-    public void setDegreeType(String degreeType) {
-        this.degreeType = degreeType;
+    public void setDegreeTypeName(String degreeTypeName) {
+        this.degreeTypeName = degreeTypeName;
     }
 
     public String getDescription() {
