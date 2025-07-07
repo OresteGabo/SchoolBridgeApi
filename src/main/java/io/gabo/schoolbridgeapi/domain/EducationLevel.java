@@ -1,6 +1,10 @@
 package io.gabo.schoolbridgeapi.domain;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity(name = "education_levels")
@@ -45,6 +49,10 @@ public class EducationLevel {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
 
