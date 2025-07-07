@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
 @Entity(name = "academic_years") @Data @NoArgsConstructor
-class AcademicYear {
+public class AcademicYear {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
