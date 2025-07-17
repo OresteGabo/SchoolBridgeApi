@@ -27,7 +27,7 @@ public class AuthService {
 
         Optional<User> userOpt = userRepo.findByUserName(username)
                 .or(() -> userRepo.findByEmail(username));
-
+        System.out.println("user opt = "+userOpt);
         if (userOpt.isEmpty()) {
             System.out.println("❌ User not found for: " + username);
             throw new RuntimeException("Invalid username or password.");
@@ -66,25 +66,3 @@ public class AuthService {
                 .build();
     }
 }
-/*
-@Serializable
-data class LoginResponseDto(
-        val authToken: String,
-        val refreshToken: String,
-        val userId: String,
-        val email: String,
-        val firstName: String,
-        val lastName: String,
-        val activeRoles: List<String>,
-
-        val phoneNumber: String?,
-        val nationalId: String?,
-        val address: CurrentUser.Address?,
-        val profilePictureUrl: String?,
-        val role: String?,
-        val joinDate: String?,
-        val linkedStudents: List<CurrentUser.LinkedStudent>?,
-        val gender: Gender?,
-        val isVerified: Boolean
-)
-*/
