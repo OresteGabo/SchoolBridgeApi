@@ -28,9 +28,9 @@ public class User {
     private String nationalId;
 
     @Column(nullable = false, length = 40, unique = true)
-    private String userName;
+    private String username;
     @Column(nullable = false, length = 120)
-    private String passwordHash;
+    private String password;
 
     @Column(nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
@@ -95,20 +95,20 @@ public class User {
         this.firstName = firstName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String passwordHash) {
+        this.password = passwordHash;
     }
 
     public Gender getGender() {
