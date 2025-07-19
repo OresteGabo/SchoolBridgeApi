@@ -10,6 +10,7 @@ import io.gabo.schoolbridgeapi.domain.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -43,9 +44,7 @@ public class UserController {
             LoginResponseDTO response =
                     authService.authenticateUser(req.getUsername(), req.getPassword());
 
-            System.out.println("✅ LOGIN successful for " + req.getUsername());
-            System.out.println("   ↳ Issued authToken    : " + response.getAuthToken());
-            System.out.println("   ↳ Roles               : " + response.getActiveRoles());
+            System.out.println(response);
             System.out.println("--------------------------------------------------\n");
             return ResponseEntity.ok(response);
 
@@ -55,6 +54,8 @@ public class UserController {
                     + "  –  reason: " + ex.getMessage());
             System.out.println("--------------------------------------------------\n");
             return ResponseEntity.status(401).body(Map.of("error", ex.getMessage()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -66,7 +67,7 @@ public class UserController {
         System.out.println("🕒 [" + LocalDateTime.now() + "]  /me requested by token subject: "
                 + principal.getName());
 
-        Optional<User> userOpt = userRepo.findByUserName(principal.getName());
+        Optional<User> userOpt = userRepo.findByUsername(principal.getName());
 
         if (userOpt.isEmpty()) {
             System.out.println("⚠️  /me – user not found: " + principal.getName());
@@ -79,14 +80,14 @@ public class UserController {
                 .map(UserRole::getDbName)
                 .collect(Collectors.toSet());
 
-        System.out.println("✅ /me – found user: " + u.getUserName()
+        System.out.println("✅ /me – found user: " + u.getUsername()
                 + "  (id=" + u.getId() + ")");
         System.out.println("   ↳ Roles: " + roles);
         System.out.println("--------------------------------------------------\n");
 
         UserInfoDTO dto = new UserInfoDTO(
                 u.getId(),
-                u.getUserName(),
+                u.getUsername(),
                 u.getEmail(),
                 u.getFirstName() + " " + u.getFamilyName(),
                 roles
